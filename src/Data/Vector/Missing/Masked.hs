@@ -11,12 +11,24 @@ module Data.Vector.Missing.Masked (
 ) where
 
 import           Control.Monad
-import           Data.Vector.Missing.Base
+import           Data.Vector.Missing.Base (Missing, BaseVector, Nullable(..))
+import           Control.Monad.Primitive     (RealWorld)
 import qualified Data.Vector.Generic.Mutable as M
 import qualified Data.Vector.Generic         as G
 
+data family Vector   (v :: * -> *)        a
+data family MVector  (v :: * -> * -> *) s a
+
+type IOVector v   = MVector v RealWorld
+type STVector v s = MVector v s
+
+type instance G.Mutable (Vector v) = MVector (G.Mutable v)
+
 newtype instance Vector  v   a = V_Mask  (v   Bool , v   (Elem a))
 newtype instance MVector v s a = MV_Mask (v s Bool , v s (Elem a))
+
+instance Masked v a => Missing (Vector v) a where
+  type BaseVector (Vector v) a = v
 
 type Masked v a = ( Nullable a
       , G.Vector v Bool
