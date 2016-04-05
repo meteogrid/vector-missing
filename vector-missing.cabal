@@ -16,7 +16,7 @@ library
                      , Data.Vector.Missing.Base
                      , Data.Vector.Missing.Masked
                      , Data.Vector.Missing.TH
-  build-depends:       base   >= 4.8  && < 4.9
+  build-depends:       base   >= 4.8  && < 5
                      , vector >= 0.10 && < 0.12
                      , primitive
                      , template-haskell
