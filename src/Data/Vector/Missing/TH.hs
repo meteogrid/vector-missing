@@ -15,14 +15,15 @@ import qualified Data.Vector.Generic         as G
 
 deriveMissing :: String -> TypeQ -> TypeQ -> DecsQ
 deriveMissing name vecQ mVecQ  = do
-  vec@(AppT vecT@(AppT _ base_@(ConT baseName)) type_) <- vecQ
+  AppT vecT@(AppT _ base_@(ConT baseName)) type_ <- vecQ
   mVec@(AppT mVecT@(AppT _ mBase_@(ConT mBaseName)) _)  <- mVecQ
   s <- liftM VarT (newName "s")
+  notStrict' <- bang noSourceUnpackedness noSourceStrictness
   let newtypes = [
-          NewtypeInstD [] baseName [type_]
-            (NormalC vName [(NotStrict, vecT `AppT` type_)]) []
-        , NewtypeInstD [] mBaseName [s, type_]
-            (NormalC mvName [ (NotStrict, mVecT `AppT` s `AppT` type_)]) []
+          NewtypeInstD [] baseName [type_] Nothing
+            (NormalC vName [(notStrict', vecT `AppT` type_)]) []
+        , NewtypeInstD [] mBaseName [s, type_] Nothing
+            (NormalC mvName [ (notStrict', mVecT `AppT` s `AppT` type_)]) []
         ]
       vName     = mkName ("V_"++name)
       mvName    = mkName ("MV_"++name)
