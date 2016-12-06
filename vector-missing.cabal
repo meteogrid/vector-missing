@@ -15,6 +15,7 @@ library
   exposed-modules:     Data.Vector.Missing
                      , Data.Vector.Missing.Base
                      , Data.Vector.Missing.Masked
+                     , Data.Vector.Missing.Sentinel
                      , Data.Vector.Missing.TH
   build-depends:       base   >= 4.8  && < 5
                      , vector >= 0.10 && < 0.12
