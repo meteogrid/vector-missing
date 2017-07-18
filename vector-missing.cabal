@@ -18,7 +18,7 @@ library
                      , Data.Vector.Missing.Sentinel
                      , Data.Vector.Missing.TH
   build-depends:       base   >= 4.8  && < 5
-                     , vector >= 0.10 && < 0.12
+                     , vector >= 0.10 && < 0.13
                      , primitive
                      , template-haskell
   hs-source-dirs:      src
